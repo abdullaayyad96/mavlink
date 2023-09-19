@@ -4510,12 +4510,12 @@
       <entry value="60" name="AIS_TYPE_PASSENGER"/>
       <entry value="61" name="AIS_TYPE_PASSENGER_HAZARDOUS_A"/>
       <entry value="62" name="AIS_TYPE_PASSENGER_HAZARDOUS_B"/>
-      <entry value="63" name="AIS_TYPE_PASSENGER_HAZARDOUS_C"/>
+      <entry value="63" name="AIS_TYPE_AIS_TYPE_PASSENGER_HAZARDOUS_C"/>
       <entry value="64" name="AIS_TYPE_PASSENGER_HAZARDOUS_D"/>
       <entry value="65" name="AIS_TYPE_PASSENGER_RESERVED_1"/>
       <entry value="66" name="AIS_TYPE_PASSENGER_RESERVED_2"/>
       <entry value="67" name="AIS_TYPE_PASSENGER_RESERVED_3"/>
-      <entry value="68" name="AIS_TYPE_PASSENGER_RESERVED_4"/>
+      <entry value="68" name="AIS_TYPE_AIS_TYPE_PASSENGER_RESERVED_4"/>
       <entry value="69" name="AIS_TYPE_PASSENGER_UNKNOWN"/>
       <entry value="70" name="AIS_TYPE_CARGO"/>
       <entry value="71" name="AIS_TYPE_CARGO_HAZARDOUS_A"/>
@@ -6427,9 +6427,143 @@
       <field type="float" name="pt_compensation">Pressure/temperature compensation</field>
       <extensions/>
       <field type="float" name="ignition_voltage" units="V">Supply voltage to EFI sparking system.  Zero in this value means "unknown", so if the supply voltage really is zero volts use 0.0001 instead.</field>
-      <field type="float" name="fuel_pressure" units="kPa">Fuel pressure. Zero in this value means "unknown", so if the fuel pressure really is zero kPa use 0.0001 instead.</field>
     </message>
     <!-- MESSAGE IDs 180 - 229: Space for custom messages in individual projectname_messages.xml files -->
+    <message id="202" name="VEHICLE_ATTITUDE">
+      <description>Vehicle Attitude.</description>
+      <field type="float" name="q_w">Quaternion rotation from the FRD body frame to the NED earth frame (w component).</field>
+      <field type="float" name="q_x">Quaternion rotation from the FRD body frame to the NED earth frame (x component).</field>
+      <field type="float" name="q_y">Quaternion rotation from the FRD body frame to the NED earth frame (y component).</field>
+      <field type="float" name="q_z">Quaternion rotation from the FRD body frame to the NED earth frame (z component).</field>
+      <field type="float" name="delta_q_w">Amount by which quaternion w has changed during last reset.</field>
+      <field type="float" name="delta_q_x">Amount by which quaternion x has changed during last reset.</field>
+      <field type="float" name="delta_q_y">Amount by which quaternion y has changed during last reset.</field>
+      <field type="float" name="delta_q_z">Amount by which quaternion z has changed during last reset.</field>
+    </message>
+
+    <message id="203" name="VEHICLE_ANGULAR_VELOCITY">
+      <description>Angular velocity components.</description>
+      <field type="float" name="angular_velocity_x" units="rad/s" >X component of angular velocity, positive is rolling to the right.</field>
+      <field type="float" name="angular_velocity_y" units="rad/s" >Y component of angular velocity, positive is pitching up.</field>
+      <field type="float" name="angular_velocity_z" units="rad/s" >Z component of angular velocity, positive is yawing to the right.</field>
+    </message>
+
+    <message id="204" name="VEHICLE_LOCAL_POSITION">
+      <description>Local position. Coordinate frame is right-handed, Z-axis down.</description>
+      <field type="uint8_t" name="xy_valid">true if x and y are valid</field>
+      <field type="uint8_t" name="z_valid">true if z is valid</field>
+      <field type="uint8_t" name="v_xy_valid">true if vx and vy are valid</field>
+      <field type="uint8_t" name="v_z_valid">true if vz is valid</field>
+      <field type="float" name="x" units="m">North position in NED earth-fixed frame</field>
+      <field type="float" name="y" units="m">East position in NED earth-fixed frame</field>
+      <field type="float" name="z" units="m">Down position (negative altitude) in NED earth-fixed frame</field>
+      <field type="float[2]" name="delta_xy">xy position reset delta</field>
+      <field type="uint8_t" name="xy_reset_counter">xy position reset counter</field>
+      <field type="float" name="delta_z">z position reset delta</field>
+      <field type="uint8_t" name="z_reset_counter">z position reset counter</field>
+      <field type="float" name="vx" units="m/s">North velocity in NED earth-fixed frame</field>
+      <field type="float" name="vy" units="m/s">East velocity in NED earth-fixed frame</field>
+      <field type="float" name="vz" units="m/s">Down velocity in NED earth-fixed frame</field>
+      <field type="float" name="z_deriv" units="m/s">Down position time derivative in NED earth-fixed frame</field>
+      <field type="float[2]" name="delta_vxy">xy velocity reset delta</field>
+      <field type="uint8_t" name="vxy_reset_counter">xy velocity reset counter</field>
+      <field type="float" name="delta_vz">z velocity reset delta</field>
+      <field type="uint8_t" name="vz_reset_counter">z velocity reset counter</field>
+      <field type="float" name="ax" units="m/s^2">North velocity derivative in NED earth-fixed frame.</field>
+      <field type="float" name="ay" units="m/s^2">East velocity derivative in NED earth-fixed frame.</field>
+      <field type="float" name="az" units="m/s^2">Down velocity derivative in NED earth-fixed frame.</field>
+      <field type="uint8_t" name="xy_global">true if position (x, y) has a valid global reference (ref_lat, ref_lon)</field>
+      <field type="uint8_t" name="z_global">true if z has a valid global reference (ref_alt)</field>
+      <field type="float" name="ref_lat" units="degrees">Reference point latitude</field>
+      <field type="float" name="ref_lon" units="degrees">Reference point longitude</field>
+      <field type="float" name="ref_alt" units="m">Reference altitude AMSL</field>
+      <field type="float" name="dist_bottom" units="m">Distance from from bottom surface to ground</field>
+      <field type="uint8_t" name="dist_bottom_valid">true if distance to bottom surface is valid</field>
+      <field type="uint8_t" name="dist_bottom_sensor_bitfield">bitfield indicating what type of sensor is used to estimate dist_bottom</field>
+      <field type="float" name="eph" units="m">Standard deviation of horizontal position error</field>
+      <field type="float" name="epv" units="m">Standard deviation of vertical position error</field>
+      <field type="float" name="evh" units="m/s">Standard deviation of horizontal velocity error</field>
+      <field type="float" name="evv" units="m/s">Standard deviation of vertical velocity error</field>
+      <field type="uint8_t" name="dead_reckoning">True if this position is estimated through dead-reckoning</field>
+      <field type="float" name="vxy_max" units="m/s">maximum horizontal speed</field>
+      <field type="float" name="vz_max" units="m/s">maximum vertical speed</field>
+      <field type="float" name="hagl_min" units="m">minimum height above ground level</field>
+      <field type="float" name="hagl_max" units="m">maximum height above ground level</field>
+    </message>
+
+    <message id="205" name="VEHICLE_STATUS">
+      <description>Encodes the system state of the vehicle published by commander.</description>
+      <field type="uint64_t" name="armed_time" units="microseconds">Arming timestamp</field>
+      <field type="uint64_t" name="takeoff_time" units="microseconds">Takeoff timestamp</field>
+      <field type="uint8_t" name="arming_state"/>
+      <field type="uint8_t" name="latest_arming_reason"/>
+      <field type="uint8_t" name="latest_disarming_reason"/>
+      <field type="uint64_t" name="nav_state_timestamp">time when current nav_state activated</field>
+      <field type="uint8_t" name="nav_state_user_intention">Mode that the user selected (might be different from nav_state in a failsafe situation)</field>
+      <field type="uint8_t" name="nav_state">Currently active mode</field>
+      <field type="uint16_t" name="failure_detector_status">Bitmask of detected failures</field>
+      <field type="uint8_t" name="hil_state">Bitmask of detected failures</field>
+      <field type="uint8_t" name="vehicle_type"/>
+      <field type="uint8_t" name="failsafe">true if system is in failsafe state (e.g.:RTL, Hover, Terminate, ...)</field>
+      <field type="uint8_t" name="failsafe_and_user_took_over">true if system is in failsafe state but the user took over control</field>
+      <field type="uint8_t" name="gcs_connection_lost"/>
+      <field type="uint8_t" name="gcs_connection_lost_counter"/>
+      <field type="uint8_t" name="high_latency_data_link_lost"/>
+      <field type="uint8_t" name="is_vtol"/>
+      <field type="uint8_t" name="is_vtol_tailsitter"/>
+      <field type="uint8_t" name="in_transition_mode"/>
+      <field type="uint8_t" name="in_transition_to_fw"/>
+    </message>
+
+    <message id="206" name="VEHICLE_CONTROL_MODE">
+      <description>Provides boolean values of the vehicle control mode.</description>
+      <field type="uint8_t" name="flag_armed">synonym for actuator_armed.armed</field>
+      <field type="uint8_t" name="flag_multicopter_position_control_enabled"/>
+      <field type="uint8_t" name="flag_control_manual_enabled">true if manual input is mixed in</field>
+      <field type="uint8_t" name="flag_control_auto_enabled">true if onboard autopilot should act</field>
+      <field type="uint8_t" name="flag_control_offboard_enabled">true if offboard control should be used</field>
+      <field type="uint8_t" name="flag_control_rates_enabled">true if rates are stabilized</field>
+      <field type="uint8_t" name="flag_control_attitude_enabled">true if attitude stabilization is mixed in</field>
+      <field type="uint8_t" name="flag_control_acceleration_enabled">true if acceleration is controlled</field>
+      <field type="uint8_t" name="flag_control_velocity_enabled">true if horizontal velocity (implies direction) is controlled</field>
+      <field type="uint8_t" name="flag_control_position_enabled">true if position is controlled</field>
+      <field type="uint8_t" name="flag_control_altitude_enabled">true if altitude is controlled</field>
+      <field type="uint8_t" name="flag_control_climb_rate_enabled">true if climb rate is controlled</field>
+      <field type="uint8_t" name="flag_control_termination_enabled">true if flighttermination is enabled</field>
+    </message>
+
+    <message id="207" name="ACTUATOR_ARMED">
+      <description>Provides bool values for actuator armed.</description>
+      <field type="uint8_t" name="armed">Set to true if system is armed</field>
+      <field type="uint8_t" name="prearmed">Set to true if the actuator safety is disabled but motors are not armed</field>
+      <field type="uint8_t" name="ready_to_arm">Set to true if system is ready to be armed</field>
+      <field type="uint8_t" name="lockdown">Set to true if actuators are forced to being disabled (due to emergency or HIL)</field>
+      <field type="uint8_t" name="manual_lockdown">Set to true if manual throttle kill switch is engaged</field>
+      <field type="uint8_t" name="force_failsafe">Set to true if the actuators are forced to the failsafe position</field>
+      <field type="uint8_t" name="in_esc_calibration_mode">IO/FMU should ignore messages from the actuator controls topics</field>
+    </message>
+
+    <message id="208" name="ACTUATOR_OUTPUTS">
+      <description>Provides output data</description>
+      <field type="uint32_t" name="noutputs">valid outputs</field>
+      <field type="float[16]" name="output">output data, in natural output units</field>
+    </message>
+
+    <message id="209" name="VEHICLE_TORQUE_SETPOINT_MODE">
+      <description>thrust_torque_setpoint mode</description>
+      <field type="float[3]" name="xyz">torque setpoint about X, Y, Z body axis</field>
+    </message>
+
+    <message id="210" name="VEHICLE_THRUST_SETPOINT_MODE">
+      <description>thrust_torque_setpoint mode</description>
+      <field type="float[3]" name="xyz">thrust setpoint along X, Y, Z body axis [-1, 1]</field>
+    </message>
+
+    <message id="211" name="ACTUATOR_MOTORS">
+      <description>Motor control message</description>
+      <field type="float[12]" name="control">range: [-1, 1]</field>
+    </message>
+
     <message id="230" name="ESTIMATOR_STATUS">
       <description>Estimator status message including flags, innovation test ratios and estimated accuracies. The flags message is an integer bitmask containing information on which EKF outputs are valid. See the ESTIMATOR_STATUS_FLAGS enum definition for further information. The innovation test ratios show the magnitude of the sensor innovation divided by the innovation check threshold. Under normal operation the innovation test ratios should be below 0.5 with occasional values up to 1.0. Values greater than 1.0 should be rare under normal operation and indicate that a measurement has been rejected by the filter. The user should be notified if an innovation test ratio greater than 1.0 is recorded. Notifications for values in the range between 0.5 and 1.0 should be optional and controllable by the user.</description>
       <field type="uint64_t" name="time_usec" units="us">Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.</field>
@@ -6959,17 +7093,17 @@
     <message id="284" name="GIMBAL_DEVICE_SET_ATTITUDE">
       <wip/>
       <!-- This message is work-in-progress and it can therefore change. It should NOT be used in stable production environments. -->
-      <description>Low level message to control a gimbal device's attitude. 
-	  This message is to be sent from the gimbal manager to the gimbal device component. 
-	  The quaternion and angular velocities can be set to NaN according to use case. 
-	  For the angles encoded in the quaternion and the angular velocities holds: 
-	  If the flag GIMBAL_DEVICE_FLAGS_YAW_IN_VEHICLE_FRAME is set, then they are relative to the vehicle heading (vehicle frame). 
-	  If the flag GIMBAL_DEVICE_FLAGS_YAW_IN_EARTH_FRAME is set, then they are relative to absolute North (earth frame). 
-	  If neither of these flags are set, then (for backwards compatibility) it holds: 
-	  If the flag GIMBAL_DEVICE_FLAGS_YAW_LOCK is set, then they are relative to absolute North (earth frame), 
-	  else they are relative to the vehicle heading (vehicle frame). 
-	  Setting both GIMBAL_DEVICE_FLAGS_YAW_IN_VEHICLE_FRAME and GIMBAL_DEVICE_FLAGS_YAW_IN_EARTH_FRAME is not allowed. 
-	  These rules are to ensure backwards compatibility. 
+      <description>Low level message to control a gimbal device's attitude.
+	  This message is to be sent from the gimbal manager to the gimbal device component.
+	  The quaternion and angular velocities can be set to NaN according to use case.
+	  For the angles encoded in the quaternion and the angular velocities holds:
+	  If the flag GIMBAL_DEVICE_FLAGS_YAW_IN_VEHICLE_FRAME is set, then they are relative to the vehicle heading (vehicle frame).
+	  If the flag GIMBAL_DEVICE_FLAGS_YAW_IN_EARTH_FRAME is set, then they are relative to absolute North (earth frame).
+	  If neither of these flags are set, then (for backwards compatibility) it holds:
+	  If the flag GIMBAL_DEVICE_FLAGS_YAW_LOCK is set, then they are relative to absolute North (earth frame),
+	  else they are relative to the vehicle heading (vehicle frame).
+	  Setting both GIMBAL_DEVICE_FLAGS_YAW_IN_VEHICLE_FRAME and GIMBAL_DEVICE_FLAGS_YAW_IN_EARTH_FRAME is not allowed.
+	  These rules are to ensure backwards compatibility.
 	  New implementations should always set either GIMBAL_DEVICE_FLAGS_YAW_IN_VEHICLE_FRAME or GIMBAL_DEVICE_FLAGS_YAW_IN_EARTH_FRAME.</description>
       <field type="uint8_t" name="target_system">System ID</field>
       <field type="uint8_t" name="target_component">Component ID</field>
@@ -6982,20 +7116,20 @@
     <message id="285" name="GIMBAL_DEVICE_ATTITUDE_STATUS">
       <wip/>
       <!-- This message is work-in-progress and it can therefore change. It should NOT be used in stable production environments. -->
-      <description>Message reporting the status of a gimbal device. 
-	  This message should be broadcast by a gimbal device component at a low regular rate (e.g. 5 Hz). 
-	  For the angles encoded in the quaternion and the angular velocities holds: 
-	  If the flag GIMBAL_DEVICE_FLAGS_YAW_IN_VEHICLE_FRAME is set, then they are relative to the vehicle heading (vehicle frame). 
-	  If the flag GIMBAL_DEVICE_FLAGS_YAW_IN_EARTH_FRAME is set, then they are relative to absolute North (earth frame). 
-	  If neither of these flags are set, then (for backwards compatibility) it holds: 
-	  If the flag GIMBAL_DEVICE_FLAGS_YAW_LOCK is set, then they are relative to absolute North (earth frame), 
-	  else they are relative to the vehicle heading (vehicle frame). 
-	  Other conditions of the flags are not allowed. 
-	  The quaternion and angular velocities in the other frame can be calculated from delta_yaw and delta_yaw_velocity as 
+      <description>Message reporting the status of a gimbal device.
+	  This message should be broadcast by a gimbal device component at a low regular rate (e.g. 5 Hz).
+	  For the angles encoded in the quaternion and the angular velocities holds:
+	  If the flag GIMBAL_DEVICE_FLAGS_YAW_IN_VEHICLE_FRAME is set, then they are relative to the vehicle heading (vehicle frame).
+	  If the flag GIMBAL_DEVICE_FLAGS_YAW_IN_EARTH_FRAME is set, then they are relative to absolute North (earth frame).
+	  If neither of these flags are set, then (for backwards compatibility) it holds:
+	  If the flag GIMBAL_DEVICE_FLAGS_YAW_LOCK is set, then they are relative to absolute North (earth frame),
+	  else they are relative to the vehicle heading (vehicle frame).
+	  Other conditions of the flags are not allowed.
+	  The quaternion and angular velocities in the other frame can be calculated from delta_yaw and delta_yaw_velocity as
 	  q_earth = q_delta_yaw * q_vehicle and w_earth = w_delta_yaw_velocity + w_vehicle (if not NaN).
-	  If neither the GIMBAL_DEVICE_FLAGS_YAW_IN_VEHICLE_FRAME nor the GIMBAL_DEVICE_FLAGS_YAW_IN_EARTH_FRAME flag is set, 
+	  If neither the GIMBAL_DEVICE_FLAGS_YAW_IN_VEHICLE_FRAME nor the GIMBAL_DEVICE_FLAGS_YAW_IN_EARTH_FRAME flag is set,
 	  then (for backwards compatibility) the data in the delta_yaw and delta_yaw_velocity fields are to be ignored.
-	  New implementations should always set either GIMBAL_DEVICE_FLAGS_YAW_IN_VEHICLE_FRAME or GIMBAL_DEVICE_FLAGS_YAW_IN_EARTH_FRAME, 
+	  New implementations should always set either GIMBAL_DEVICE_FLAGS_YAW_IN_VEHICLE_FRAME or GIMBAL_DEVICE_FLAGS_YAW_IN_EARTH_FRAME,
 	  and always should set delta_yaw and delta_yaw_velocity either to the proper value or NaN.</description>
       <field type="uint8_t" name="target_system">System ID</field>
       <field type="uint8_t" name="target_component">Component ID</field>
